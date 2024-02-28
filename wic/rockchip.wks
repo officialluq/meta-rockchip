@@ -1,0 +1,22 @@
+# Copyright (C) 2019,2020 Garmin Ltd. or its subsidiaries
+# Copyright (C) 2021 Trevor Woerner
+# Released under the MIT license (see COPYING.MIT for the terms)
+#
+# short-description: Create a disk image suitable for booting Rockchip from SD-card
+# long-description: Creates a disk image partitioned using GPT, suitable for Rockchip
+# Disk layout
+# Note that the reference documentation refers to 512 byte disk sectors, but
+# wic uses 1KB blocks. The following table uses 512 byte sectors:
+#
+#   Partition   Start Sector    Number of Sectors
+#   loader1     64              8000        (idbloader / U-Boot SPL)
+#   reserved1   8064            128
+#   reserved2   8192            8192
+#   loader2     16384           8192        (U-Boot proper)
+#   atf         24576           8192
+#   boot        32768           229376
+#   root        262144          -           (suggested)
+bootloader --ptable msdos
+part loader1    --offset 32     --fixed-size 4000K --source rawcopy   --sourceparams="file=idbloader.img"
+part loader2    --offset 8192   --fixed-size 4096K   --source rawcopy --sourceparams="file=u-boot.itb"
+part /    --source rootfs  --fstype=ext4 --label root --use-uuid
