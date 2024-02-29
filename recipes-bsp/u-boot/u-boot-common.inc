@@ -12,7 +12,7 @@ PE = "1"
 
 # We use the revision in order to avoid having to fetch it from the
 # repo during parse
-SRCREV = "7f33d43756e9e8beacc82a1a7778af6113368476"
+SRCREV = "2a58476bf396e2f9e663dc9005b697119a54610a"
 
 SRC_URI = "git://github.com/officialluq/u-boot.git;protocol=https;branch=master"
 
